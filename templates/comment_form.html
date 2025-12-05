@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Adicionar Comentário - Blog de Eletrônica Analógica{% endblock %}
+
+{% block content %}
+<h2>Adicionar Comentário</h2>
+<p>Post: <strong>{{ post.titulo }}</strong></p>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">Publicar Comentário</button>
+    <a href="{% url 'post_detail' post.id %}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

@@ -23,4 +23,28 @@
         <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">Deletar</a>
     </div>
 </article>
+
+<!-- Seção de Comentários -->
+<section style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #ddd;">
+    <h3>Comentários ({{ post.comments.count }})</h3>
+    
+    <div style="margin: 20px 0;">
+        <a href="{% url 'comment_create' post.id %}" class="btn">Adicionar Comentário</a>
+    </div>
+    
+    {% if post.comments.all %}
+        <div style="margin-top: 20px;">
+            {% for comment in post.comments.all %}
+                <div style="background-color: #f9f9f9; padding: 15px; margin-bottom: 15px; border-left: 3px solid #007bff;">
+                    <p style="margin: 0 0 10px 0;"><strong>{{ comment.autor.username }}</strong> 
+                        <span style="color: #666; font-size: 0.85em;">- {{ comment.data_postagem|date:"d/m/Y H:i" }}</span>
+                    </p>
+                    <p style="margin: 0;">{{ comment.texto }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="color: #666; font-style: italic;">Nenhum comentário ainda. Seja o primeiro a comentar!</p>
+    {% endif %}
+</section>
 {% endblock %}
