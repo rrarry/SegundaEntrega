@@ -6,6 +6,7 @@
 <article>
     <h2>{{ post.titulo }}</h2>
     <p style="color: #666; font-size: 0.9em;">
+        Por <strong>{{ post.autor.username|default:"Anônimo" }}</strong> • 
         Postado em {{ post.data_postagem|date:"d/m/Y H:i" }}
     </p>
     

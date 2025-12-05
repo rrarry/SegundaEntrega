@@ -15,11 +15,14 @@
                 </a>
             </h3>
             <p style="color: #666; font-size: 0.9em;">
+                Por <strong>{{ post.autor.username|default:"Anônimo" }}</strong> • 
                 Postado em {{ post.data_postagem|date:"d/m/Y H:i" }}
             </p>
             <div style="margin-top: 10px;">
                 <a href="{% url 'post_detail' post.id %}" class="btn" style="margin-right: 10px;">Ver Post</a>
-                <a href="{% url 'post_edit' post.id %}" class="btn">Editar</a>
+                {% if user.is_authenticated and user == post.autor or user.is_staff %}
+                    <a href="{% url 'post_edit' post.id %}" class="btn">Editar</a>
+                {% endif %}
             </div>
         </li>
     {% endfor %}

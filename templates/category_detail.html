@@ -18,6 +18,7 @@
                     </a>
                 </h4>
                 <p style="margin: 0; color: #666; font-size: 0.9em;">
+                    Por <strong>{{ post.autor.username|default:"Anônimo" }}</strong> • 
                     Postado em {{ post.data_postagem|date:"d/m/Y H:i" }}
                 </p>
             </li>
