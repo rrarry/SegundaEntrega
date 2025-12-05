@@ -21,6 +21,7 @@ class PostDetailView(DetailView):
     context_object_name = 'post'
 
 
+@method_decorator(login_required, name='dispatch')
 class PostCreateView(CreateView):
     """Cria um novo post"""
     model = Post
@@ -31,6 +32,7 @@ class PostCreateView(CreateView):
         return reverse_lazy('post_detail', kwargs={'pk': self.object.pk})
 
 
+@method_decorator(login_required, name='dispatch')
 class PostUpdateView(UpdateView):
     """Edita um post existente"""
     model = Post
@@ -42,6 +44,7 @@ class PostUpdateView(UpdateView):
         return reverse_lazy('post_detail', kwargs={'pk': self.object.pk})
 
 
+@method_decorator(login_required, name='dispatch')
 class PostDeleteView(DeleteView):
     """Deleta um post"""
     model = Post
