@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.titulo }} - Blog de Eletrônica Analógica{% endblock %}
+
+{% block content %}
+<article>
+    <h2>{{ post.titulo }}</h2>
+    <p style="color: #666; font-size: 0.9em;">
+        Postado em {{ post.data_postagem|date:"d/m/Y H:i" }}
+    </p>
+    
+    <hr>
+    
+    <div style="line-height: 1.6;">
+        {{ post.conteudo|safe }}
+    </div>
+    
+    <hr>
+    
+    <div style="margin-top: 20px;">
+        <a href="{% url 'post_list' %}" class="btn">Voltar</a>
+        <a href="{% url 'post_edit' post.id %}" class="btn">Editar</a>
+        <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">Deletar</a>
+    </div>
+</article>
+{% endblock %}

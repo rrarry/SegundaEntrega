@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Deletar Post - Blog de Eletrônica Analógica{% endblock %}
+
+{% block content %}
+<h2>Confirmar Exclusão</h2>
+
+<div style="background-color: #fff3cd; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+    <p><strong>Atenção!</strong> Você está prestes a deletar o seguinte post:</p>
+    <h3 style="margin: 10px 0;">{{ post.titulo }}</h3>
+    <p style="color: #666;">Postado em {{ post.data_postagem|date:"d/m/Y H:i" }}</p>
+</div>
+
+<p style="color: #d32f2f; font-weight: bold;">Esta ação não pode ser desfeita!</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Sim, deletar</button>
+    <a href="{% url 'post_detail' post.id %}" class="btn" style="background-color: #666; margin-left: 10px;">Cancelar</a>
+</form>
+{% endblock %}

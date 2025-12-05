@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Posts - Blog de Eletrônica Analógica{% endblock %}
+
+{% block content %}
+<h2>Posts Recentes</h2>
+
+{% if posts %}
+    <ul style="list-style: none; padding: 0;">
+    {% for post in posts %}
+        <li style="margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
+            <h3 style="margin-top: 0;">
+                <a href="{% url 'post_detail' post.id %}" style="color: #333; text-decoration: none;">
+                    {{ post.titulo }}
+                </a>
+            </h3>
+            <p style="color: #666; font-size: 0.9em;">
+                Postado em {{ post.data_postagem|date:"d/m/Y H:i" }}
+            </p>
+            <div style="margin-top: 10px;">
+                <a href="{% url 'post_detail' post.id %}" class="btn" style="margin-right: 10px;">Ver Post</a>
+                <a href="{% url 'post_edit' post.id %}" class="btn">Editar</a>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Nenhum post encontrado. <a href="{% url 'post_create' %}">Criar o primeiro post</a></p>
+{% endif %}
+{% endblock %}
