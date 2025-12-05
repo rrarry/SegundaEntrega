@@ -32,8 +32,10 @@
     
     <div style="margin-top: 20px;">
         <a href="{% url 'post_list' %}" class="btn">Voltar</a>
-        <a href="{% url 'post_edit' post.id %}" class="btn">Editar</a>
-        <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">Deletar</a>
+        {% if user.is_authenticated and user == post.autor or user.is_staff %}
+            <a href="{% url 'post_edit' post.id %}" class="btn">Editar</a>
+            <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">Deletar</a>
+        {% endif %}
     </div>
 </article>
 

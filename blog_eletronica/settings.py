@@ -118,4 +118,5 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Login URL
-LOGIN_URL = '/admin/login/'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'

@@ -28,6 +28,10 @@ class PostCreateView(CreateView):
     form_class = PostForm
     template_name = 'post_form.html'
     
+    def form_valid(self, form):
+        form.instance.autor = self.request.user
+        return super().form_valid(form)
+    
     def get_success_url(self):
         return reverse_lazy('post_detail', kwargs={'pk': self.object.pk})
 
@@ -40,6 +44,12 @@ class PostUpdateView(UpdateView):
     template_name = 'post_form.html'
     context_object_name = 'post'
     
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if not self.request.user.is_staff:
+            queryset = queryset.filter(autor=self.request.user)
+        return queryset
+    
     def get_success_url(self):
         return reverse_lazy('post_detail', kwargs={'pk': self.object.pk})
 
@@ -51,6 +61,12 @@ class PostDeleteView(DeleteView):
     template_name = 'post_confirm_delete.html'
     context_object_name = 'post'
     success_url = reverse_lazy('post_list')
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if not self.request.user.is_staff:
+            queryset = queryset.filter(autor=self.request.user)
+        return queryset
 
 
 @method_decorator(login_required, name='dispatch')

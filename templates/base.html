@@ -77,10 +77,15 @@
             
             {% if user.is_authenticated %}
                 <span style="color: white; margin-left: 20px;">Olá, {{ user.username }}!</span>
-                <a href="/admin/">Perfil/Admin</a>
-                <a href="{% url 'logout' %}">Logout</a>
+                {% if user.is_staff %}
+                    <a href="/admin/">Admin</a>
+                {% endif %}
+                <form method="post" action="{% url 'logout' %}" style="display: inline; margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; border: none; color: #4CAF50; cursor: pointer; font-weight: bold; font-size: 1em; font-family: Arial, sans-serif; padding: 0; text-decoration: none;">Logout</button>
+                </form>
             {% else %}
-                <a href="/admin/login/">Login</a>
+                <a href="{% url 'login' %}">Login</a>
             {% endif %}
         </nav>
     </header>

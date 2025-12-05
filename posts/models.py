@@ -19,6 +19,7 @@ class Post(models.Model):
     conteudo = models.TextField()
     data_postagem = models.DateTimeField(auto_now_add=True)
     categorias = models.ManyToManyField(Category, related_name='posts', blank=True)
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.titulo
