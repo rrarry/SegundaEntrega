@@ -7,21 +7,9 @@
 
 <form method="post" style="max-width: 600px;">
     {% csrf_token %}
+    {{ form.as_p }}
     
-    <div style="margin-bottom: 15px;">
-        <label for="titulo" style="display: block; margin-bottom: 5px; font-weight: bold;">Título:</label>
-        <input type="text" id="titulo" name="titulo" value="{{ post.titulo|default:'' }}" required 
-               style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px;">
-    </div>
-    
-    <div style="margin-bottom: 15px;">
-        <label for="conteudo" style="display: block; margin-bottom: 5px; font-weight: bold;">Conteúdo (HTML):</label>
-        <textarea id="conteudo" name="conteudo" rows="10" required
-                  style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px; font-family: monospace;">{{ post.conteudo|default:'' }}</textarea>
-        <small style="color: #666;">Você pode usar HTML neste campo.</small>
-    </div>
-    
-    <div>
+    <div style="margin-top: 15px;">
         <button type="submit" class="btn">Salvar</button>
         <a href="{% url 'post_list' %}" class="btn" style="background-color: #666; margin-left: 10px;">Cancelar</a>
     </div>

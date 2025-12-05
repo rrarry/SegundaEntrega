@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from .models import Post
+from .forms import PostForm
 
 
 def post_list(request):
@@ -21,15 +22,14 @@ def post_detail(request, pk):
 def post_create(request):
     """Cria um novo post"""
     if request.method == 'POST':
-        titulo = request.POST.get('titulo')
-        conteudo = request.POST.get('conteudo')
-        
-        post = Post(titulo=titulo, conteudo=conteudo)
-        post.save()
-        
-        return redirect('post_detail', pk=post.pk)
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm()
     
-    return render(request, 'post_form.html')
+    return render(request, 'post_form.html', {'form': form})
 
 
 def post_edit(request, pk):
@@ -40,13 +40,14 @@ def post_edit(request, pk):
         raise Http404("Post não encontrado")
     
     if request.method == 'POST':
-        post.titulo = request.POST.get('titulo')
-        post.conteudo = request.POST.get('conteudo')
-        post.save()
-        
-        return redirect('post_detail', pk=post.pk)
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm(instance=post)
     
-    return render(request, 'post_form.html', {'post': post})
+    return render(request, 'post_form.html', {'form': form, 'post': post})
 
 
 def post_delete(request, pk):
