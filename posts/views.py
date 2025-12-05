@@ -1,9 +1,9 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .models import Post, Comment
+from .models import Post, Comment, Category
 from .forms import PostForm, CommentForm
 
 
@@ -69,3 +69,17 @@ class CommentCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['post'] = Post.objects.get(pk=self.kwargs['pk'])
         return context
+
+
+class CategoryListView(ListView):
+    """Lista todas as categorias"""
+    model = Category
+    template_name = 'category_list.html'
+    context_object_name = 'categories'
+
+
+class CategoryDetailView(DetailView):
+    """Exibe detalhes de uma categoria e lista seus posts"""
+    model = Category
+    template_name = 'category_detail.html'
+    context_object_name = 'category'

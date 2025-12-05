@@ -9,6 +9,19 @@
         Postado em {{ post.data_postagem|date:"d/m/Y H:i" }}
     </p>
     
+    {% if post.categorias.all %}
+        <div style="margin: 10px 0;">
+            <strong>Categorias:</strong>
+            {% for categoria in post.categorias.all %}
+                <a href="{% url 'category_detail' categoria.id %}" 
+                   style="display: inline-block; background-color: #007bff; color: white; padding: 5px 10px; 
+                          margin: 5px 5px 5px 0; border-radius: 3px; text-decoration: none; font-size: 0.85em;">
+                    {{ categoria.nome }}
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
     <hr>
     
     <div style="line-height: 1.6;">

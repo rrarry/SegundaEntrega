@@ -8,4 +8,6 @@ urlpatterns = [
     path('post/<int:pk>/editar/', views.PostUpdateView.as_view(), name='post_edit'),
     path('post/<int:pk>/deletar/', views.PostDeleteView.as_view(), name='post_delete'),
     path('post/<int:pk>/comentar/', views.CommentCreateView.as_view(), name='comment_create'),
+    path('categorias/', views.CategoryListView.as_view(), name='category_list'),
+    path('categoria/<int:pk>/', views.CategoryDetailView.as_view(), name='category_detail'),
 ]

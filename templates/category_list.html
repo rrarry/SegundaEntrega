@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Categorias - Blog de Eletrônica Analógica{% endblock %}
+
+{% block content %}
+<h2>Categorias</h2>
+
+{% if categories %}
+    <ul style="list-style: none; padding: 0;">
+        {% for category in categories %}
+            <li style="margin-bottom: 20px; padding: 15px; background-color: #f9f9f9; border-left: 4px solid #007bff;">
+                <h3 style="margin: 0 0 10px 0;">
+                    <a href="{% url 'category_detail' category.id %}" style="text-decoration: none; color: #007bff;">
+                        {{ category.nome }}
+                    </a>
+                </h3>
+                <p style="margin: 0; color: #666;">{{ category.descricao }}</p>
+                <p style="margin: 10px 0 0 0; font-size: 0.9em; color: #888;">
+                    {{ category.posts.count }} post(s)
+                </p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Nenhuma categoria cadastrada ainda.</p>
+{% endif %}
+
+<div style="margin-top: 20px;">
+    <a href="{% url 'post_list' %}" class="btn">Voltar para Posts</a>
+</div>
+{% endblock %}
