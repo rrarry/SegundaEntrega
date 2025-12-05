@@ -74,6 +74,14 @@
             <a href="{% url 'post_list' %}">Home</a>
             <a href="{% url 'category_list' %}">Categorias</a>
             <a href="{% url 'post_create' %}">Novo Post</a>
+            
+            {% if user.is_authenticated %}
+                <span style="color: white; margin-left: 20px;">Olá, {{ user.username }}!</span>
+                <a href="/admin/">Perfil/Admin</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="/admin/login/">Login</a>
+            {% endif %}
         </nav>
     </header>
     
