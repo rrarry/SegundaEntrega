@@ -1,64 +1,47 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import Http404
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from .models import Post
 from .forms import PostForm
 
 
-def post_list(request):
+class PostListView(ListView):
     """Lista todos os posts"""
-    posts = Post.objects.all()
-    return render(request, 'post_list.html', {'posts': posts})
+    model = Post
+    template_name = 'post_list.html'
+    context_object_name = 'posts'
 
 
-def post_detail(request, pk):
+class PostDetailView(DetailView):
     """Exibe detalhes de um post específico"""
-    try:
-        post = Post.objects.get(pk=pk)
-    except Post.DoesNotExist:
-        raise Http404("Post não encontrado")
-    return render(request, 'post_detail.html', {'post': post})
+    model = Post
+    template_name = 'post_detail.html'
+    context_object_name = 'post'
 
 
-def post_create(request):
+class PostCreateView(CreateView):
     """Cria um novo post"""
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save()
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = PostForm()
+    model = Post
+    form_class = PostForm
+    template_name = 'post_form.html'
     
-    return render(request, 'post_form.html', {'form': form})
+    def get_success_url(self):
+        return reverse_lazy('post_detail', kwargs={'pk': self.object.pk})
 
 
-def post_edit(request, pk):
+class PostUpdateView(UpdateView):
     """Edita um post existente"""
-    try:
-        post = Post.objects.get(pk=pk)
-    except Post.DoesNotExist:
-        raise Http404("Post não encontrado")
+    model = Post
+    form_class = PostForm
+    template_name = 'post_form.html'
+    context_object_name = 'post'
     
-    if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            form.save()
-            return redirect('post_detail', pk=post.pk)
-    else:
-        form = PostForm(instance=post)
-    
-    return render(request, 'post_form.html', {'form': form, 'post': post})
+    def get_success_url(self):
+        return reverse_lazy('post_detail', kwargs={'pk': self.object.pk})
 
 
-def post_delete(request, pk):
+class PostDeleteView(DeleteView):
     """Deleta um post"""
-    try:
-        post = Post.objects.get(pk=pk)
-    except Post.DoesNotExist:
-        raise Http404("Post não encontrado")
-    
-    if request.method == 'POST':
-        post.delete()
-        return redirect('post_list')
-    
-    return render(request, 'post_confirm_delete.html', {'post': post})
+    model = Post
+    template_name = 'post_confirm_delete.html'
+    context_object_name = 'post'
+    success_url = reverse_lazy('post_list')
